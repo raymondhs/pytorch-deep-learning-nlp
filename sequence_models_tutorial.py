@@ -293,12 +293,6 @@ class CharLSTMTagger(nn.Module):
         self.hidden_dim = hidden_dim
 
         self.word_embeddings = nn.Embedding(vocab_size, embedding_dim)
-        
-        # Character features
-        self.char_hidden_dim = char_hidden_dim
-        self.char_embeddings = nn.Embedding(char_vocab_size, char_embedding_dim)
-        self.char_lstm = nn.LSTM(char_embedding_dim, char_hidden_dim)
-        self.char_hidden = self.init_hidden(char_hidden_dim)
 
         # The LSTM takes word embeddings as inputs, and outputs hidden states
         # with dimensionality hidden_dim.
@@ -307,6 +301,12 @@ class CharLSTMTagger(nn.Module):
         # The linear layer that maps from hidden state space to tag space
         self.hidden2tag = nn.Linear(hidden_dim, tagset_size)
         self.hidden = self.init_hidden(hidden_dim)
+
+        # Character features
+        self.char_hidden_dim = char_hidden_dim
+        self.char_embeddings = nn.Embedding(char_vocab_size, char_embedding_dim)
+        self.char_lstm = nn.LSTM(char_embedding_dim, char_hidden_dim)
+        self.char_hidden = self.init_hidden(char_hidden_dim)
 
     def init_hidden(self, dim):
         # Before we've done anything, we dont have any hidden state.

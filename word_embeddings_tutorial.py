@@ -383,8 +383,9 @@ print(losses)  # The loss decreased every iteration over the training data!
 
 
 # For sanity check, let's see what our model predicts
-for context, target in data[:5]:
-    context_idxs = make_context_vector(context, word_to_ix)
-    log_probs = model(context_idxs)
-    idx = log_probs.argmax(1)
-    print(context, word_to_ix[target], idx.item())
+with torch.no_grad():
+    for context, target in data[:5]:
+        context_idxs = make_context_vector(context, word_to_ix)
+        log_probs = model(context_idxs)
+        idx = log_probs.argmax(1)
+        print(context, word_to_ix[target], idx.item())
